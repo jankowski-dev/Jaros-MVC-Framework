@@ -15,22 +15,71 @@ class Router
         $this->uri = $uri;
     }
 
-    public function getTrack()
-    {
-        return $this->track;
-    }
 
-    public function getUri()
-    {
+    public function running() {
         foreach ($this->routes as $route) {
-            if (!strcasecmp($route->path, $this->uri)) {
+            if ($this->compareURI($this->uri, $route->path)) {
                 $controller = $route->controller;
                 $className = 'App\Controllers\\' . $controller;
-                $run = new $className();
                 $action = $route->action;
-                return $run->$action();
+                $params = basename($this->uri);
+                $runClass = new $className();
+                return $runClass->$action($params);
+            } else {
+
             }
         }
-        return '<br>' . 'Данный роут' . ' ' . $this->uri . ' ' . 'не найден';
+        return "Error 404";
     }
+
+    public function compareURI($URI, $routePath) {
+        $UriWithoutParams = dirname($URI) . '/';
+        $paramRoute = basename($routePath);
+
+        if ($routePath == ($UriWithoutParams . $paramRoute)) {
+            return true;
+        }
+        if (basename($routePath) == basename($URI)) {
+            return true;
+        }
+        return false;
+
+    }
+
+    // public function getParams($uri) {
+    //     return basename($uri);
+    // }
+
+
+    // public function run()
+    // {
+    //     foreach ($this->routes as $route) {
+    //         // $newStr = str_replace(":", "", $route->path);
+    //         if (!strcasecmp($newStr, $this->uri)) {
+    //             $controller = $route->controller;
+    //             $className = 'App\Controllers\\' . $controller;
+    //             $runClass = new $className();
+    //             $action = $route->action;
+    //             $address = $route->path;
+    //             $param = $this->extParam($address);
+    //             if ($params) {
+    //                 return $runClass->$action($param);
+    //             } else {
+    //                 return $runClass->$action();
+    //             }
+
+    //         }
+    //     }
+    //     return '<br>' . 'Данный роут' . ' ' . $this->uri . ' ' . 'не найден';
+    // }
+
+    // public function extParam($address) {
+    //     $pattern = '/\/:(\w+)/';
+    //     $matches = array();
+
+    // if (preg_match($pattern, $address, $matches)) {
+    //     return $matches[1];
+    // } else {
+    //     return false;
+    // }
 }

@@ -22,5 +22,5 @@ $routes = require_once __DIR__ . '/app/routes/routes.php';
 контроллер и метод и вызывал его здесь */
 
 $app = (new Router($routes, URI));
-
-echo $app->getUri();
+echo $app->running();
+// echo $app->compareURI('/user/', '/user/');
