@@ -23,4 +23,4 @@ $routes = require_once __DIR__ . '/app/routes/routes.php';
 
 $app = (new Router($routes, URI));
 echo $app->running();
-// echo $app->compareURI('/user/', '/user/');
+// echo $app->compareURI('/post/id/345', '/post/id/:id');

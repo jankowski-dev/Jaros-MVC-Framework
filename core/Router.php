@@ -36,12 +36,14 @@ class Router
         $UriWithoutParams = dirname($URI) . '/';
         $paramRoute = basename($routePath);
 
-        if ($routePath == ($UriWithoutParams . $paramRoute)) {
-            return true;
-        }
         if (basename($routePath) == basename($URI)) {
-            return true;
+             return true;
         }
+
+        if ($routePath == ($UriWithoutParams . $paramRoute)) {
+             return true;
+        }
+
         return false;
 
     }
