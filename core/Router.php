@@ -33,55 +33,54 @@ class Router
     }
 
     public function compareURI($URI, $routePath) {
-        $UriWithoutParams = dirname($URI) . '/';
-        $paramRoute = basename($routePath);
 
-        if (basename($routePath) == basename($URI)) {
-             return true;
+        if ($URI !== '/' and $URI !== '') {
+            $URI = $this->removeTrailingSlash($URI);
+            $routePath = $this->removeTrailingSlash($routePath);
+            $lastSegmentUri = $this->extractLastSegment($URI);
+
+            if (is_numeric(intval($lastSegment)) and (preg_match('/:/u', $routePath))) {
+                $URI = $this->trimLastSegment($URI);
+                $routePath = $this->trimLastSegment($routePath);
+                return ($routePath == $URI) ? true : false;
+            }
+
+            if ($URI == $routePath) {
+                return true;
+            }
         }
 
-        if ($routePath == ($UriWithoutParams . $paramRoute)) {
-             return true;
+        if ($URI == $routePath) {
+            return true;
         }
 
         return false;
-
     }
 
-    // public function getParams($uri) {
-    //     return basename($uri);
-    // }
 
+    public function extractLastSegment($uri) {
+        $last_slash_pos = strrpos($uri, '/');
+        if ($last_slash_pos !== false) {
+            $last_segment = substr($uri, $last_slash_pos + 1);
+            return $last_segment;
+            }
+        return false;
+    }
 
-    // public function run()
-    // {
-    //     foreach ($this->routes as $route) {
-    //         // $newStr = str_replace(":", "", $route->path);
-    //         if (!strcasecmp($newStr, $this->uri)) {
-    //             $controller = $route->controller;
-    //             $className = 'App\Controllers\\' . $controller;
-    //             $runClass = new $className();
-    //             $action = $route->action;
-    //             $address = $route->path;
-    //             $param = $this->extParam($address);
-    //             if ($params) {
-    //                 return $runClass->$action($param);
-    //             } else {
-    //                 return $runClass->$action();
-    //             }
+    public function removeTrailingSlash($str) {
+        $str = trim($str);
+        if (substr($str, -1) === '/') {
+            $str = substr($str, 0, -1);
+        }
+    return $str;
+}
 
-    //         }
-    //     }
-    //     return '<br>' . 'Данный роут' . ' ' . $this->uri . ' ' . 'не найден';
-    // }
-
-    // public function extParam($address) {
-    //     $pattern = '/\/:(\w+)/';
-    //     $matches = array();
-
-    // if (preg_match($pattern, $address, $matches)) {
-    //     return $matches[1];
-    // } else {
-    //     return false;
-    // }
+    public function trimLastSegment($uri) {
+        $last_slash_pos = strrpos($uri, '/');
+        if ($last_slash_pos !== false) {
+            return substr($uri, 0, $last_slash_pos);
+        } else {
+            return $uri;
+    }
+}
 }
