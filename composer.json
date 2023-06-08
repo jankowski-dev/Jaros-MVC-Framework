@@ -1,0 +1,16 @@
+{
+    "name": "root/jaros.jankowski.one",
+    "authors": [
+        {
+            "name": "jankowski-dev",
+            "email": "yankowski.dev@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Core\\": "core/",
+            "App\\Controllers\\": "app/controllers/"
+        }
+    }
+}
