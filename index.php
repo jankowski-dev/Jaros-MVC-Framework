@@ -20,7 +20,7 @@ define('URI', $_SERVER['REQUEST_URI']);
 $routes = require_once __DIR__ . '/app/routes/routes.php';
 
 /* Сделать так, создавался обьект App, который будет знать
-контроллер и метод и вызывал его здесь */
+контроллер и метод и вызывал его здесь olololo*/
 
 $app = (new Router($routes, URI));
 print_r($app->running());
